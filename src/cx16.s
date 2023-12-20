@@ -1,6 +1,6 @@
 ; X16 hardware/software registers
 
-;   .cpu "w65c02"
+    ;.cpu "w65c02"
 
 RAM_BANK        = $00
 ROM_BANK        = $01

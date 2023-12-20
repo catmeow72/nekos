@@ -1,11 +1,18 @@
-.include "cx16.s"
+    .include "cx16.s"
 
-.org $c000
-    nmiv:
-    resv:
-    irqv:
+    .org $0000
 
-.org $fffa
-    .word nmiv
-    .word resv
-    .word irqv
+    .org $C000
+NMI:        ; The non maskable interrupt
+
+RESET:      ; reset vector
+    jmp     main_loop
+main_loop:  ; infinite loop
+    jmp     main_loop
+
+IRQ:
+
+    .org $FFFA
+    .word NMI
+    .word RESET
+    .word IRQ
