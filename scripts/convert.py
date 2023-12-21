@@ -7,10 +7,11 @@ import json
 scriptdir = path.realpath(path.dirname(__file__))
 resdir = path.realpath(path.join(scriptdir, "..", "res"))
 resfiles = os.listdir(resdir)
+srcdir = path.realpath(path.join(scriptdir, "..", "src"))
 for file in resfiles:
 	if file.lower().endswith(".png"):
 		dot = file.rfind(".")
-		filestem = file[dot - 1:]
+		filestem = file[:dot]
 		imgbytes = bytearray()
 		with Image.open(path.join(resdir, file)) as img:
 			width = img.width
@@ -30,5 +31,5 @@ for file in resfiles:
 								if pixel[3] != 0:
 									byte |= 1 << (7 - inner_x)
 						imgbytes.append(byte)
-		with open(path.join(resdir, filestem + ".bin"), "wb+") as f:
+		with open(path.join(srcdir, filestem + ".bin"), "wb+") as f:
 			f.write(imgbytes)
