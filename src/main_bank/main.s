@@ -59,6 +59,8 @@ main_loop:
 	lda #>hello_world
 	sta r0+1
 	jsr strout
+	.word $C000
+	.byte 1
 main_loop_inner:
     jmp     main_loop_inner
 hello_world:
@@ -66,6 +68,7 @@ hello_world:
 IRQ:
     rti
 
+	.include "jsrfar.s"
 	.include "palette.s"
 	.include "charset.s"
 	.include "print.s"
