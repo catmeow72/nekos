@@ -1,5 +1,5 @@
 AS = vasm
-AS_FLAGS = -dotdir -Fbin
+AS_FLAGS = -dotdir -Fbin -c02
 
 TEST_FLAGS = -C cx16-asm.cfg -t cx16 -u __EXEHDR__
 
@@ -11,8 +11,11 @@ all: builddir rom
 builddir:
 	mkdir -p $(BUILD_DIR)
 
+
 rom: $(SRC_DIR)/main.s
-	$(AS) $(AS_FLAGS) $(SRC_DIR)/main.s -o $(BUILD_DIR)/rom.bin
+	$(AS) $(AS_FLAGS) $(SRC_DIR)/main.s -L $(BUILD_DIR)/rom.bin.lst -Lall -o $(BUILD_DIR)/rom.bin.fullram
+	./scripts/fixrom.py $(BUILD_DIR)/rom.bin.fullram $(BUILD_DIR)/rom.bin
+
 
 charset:
 	nasm -fbin $(SRC_DIR)/charset_petscii.s -o $(BUILD_DIR)/charset_petscii.bin

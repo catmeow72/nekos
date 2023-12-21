@@ -10,20 +10,22 @@ load_palette:
 	lda #$11
 	sta ADDR_H
 	ldy #0
-@loop0:
+palette_loop_1:
 	lda (r0),y
 	sta DATA0
 	iny
 	cpy #0
-	bne @loop0
-	inc r0+1
+	bne palette_loop_1
+	lda r0+1
+	inc
+	sta r0+1
 	ldy #0
-@loop1:
+palette_loop_2:
 	lda (r0),y
 	sta DATA0
 	iny
 	cpy #0
-	bne @loop1
+	bne palette_loop_2
 	rts
 
 palette:

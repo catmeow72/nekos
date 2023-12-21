@@ -1,57 +1,53 @@
 ;.include "cx16.s"
 load_charset:
-	lda #$10
+	lda #$80
 	sta L1_TILEBASE
 	stz L1_MAPBASE
 	lda #%01100000
 	sta L1_CONFIG
+	stz L1_HSCROLL_L
+	stz L1_HSCROLL_H
+	stz L1_VSCROLL_L
+	stz L1_HSCROLL_H
 	lda L1_TILEBASE
 	and #%11111100
 	stz CTRL
 	stz ADDR_L
-	rol
-	tax
-	and #1
-	ora #$10
+	lda #$11
 	sta ADDR_H
-	txa
-	and #$FE
+	lda #00
 	sta ADDR_M
 	stz charset_tmp
 	stz charset_tmp+1
-	ldy #0
 	lda #<charset_data
 	sta r0
 	lda #>charset_data
 	sta r0+1
-@loop:
+	ldx #0
+	ldy #0
+charset_loop:
 	lda (r0),y
 	sta DATA0
 	iny
-	sty charset_tmp
-	cmp #0
-	bne @loop
-	ldy charset_tmp+1
-	iny
-	cmp #>charset_data_end
-	beq :+
-	sty charset_tmp+1
-	ldy r0+1
-	iny
-	sty r0+1
-	stz r0
+	cpy #0
+	bne charset_loop
 	ldy #0
-	bra @loop
-:	lda (r0),y
+	inx
+	lda r0+1
+	inc
+	sta r0+1
+	cpx #>charset_data_end
+	bne charset_loop
+	ldy #0
+charset_loop_last_page:
+	cpy #<charset_data_end
+	beq :+
+	lda (r0),y
 	sta DATA0
 	iny
-	sty charset_tmp
-	cmp #<charset_data_end
-	bne :-
-	rts
-charset_tmp:
-	.res 2
+	bra charset_loop_last_page
+:	rts
 charset_data:
-	.incbin "font.bin"
+	.incbin "font.bin",0
 charset_data_end:
 	
