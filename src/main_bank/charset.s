@@ -45,6 +45,6 @@ charset_loop_last_page:
 	bra charset_loop_last_page ; repeat loop, which will branch to the end if we're done.
 :	rts
 charset_data:
-	.incbin "font.bin",0
+	.incbin "../font.bin",0
 charset_data_end:
 	
