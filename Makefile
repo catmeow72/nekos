@@ -1,5 +1,5 @@
 AS = vasm
-AS_FLAGS = -dotdir -Fbin -c02
+AS_FLAGS = -dotdir -Fbin -wdc02
 
 TEST_FLAGS = -C cx16-asm.cfg -t cx16 -u __EXEHDR__
 
